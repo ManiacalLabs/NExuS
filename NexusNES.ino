@@ -11,7 +11,10 @@ NESpad pad1 = NESpad(3,1,5);
 NESpad pad2 = NESpad(2,0,4);
 
 byte state1 = 0,
-     state2 = 0;
+     last_state1 = 0,
+     state2 = 0,
+     last_state2 = 0;
+bool state = false;
 
 uint8_t btns[] = {
     NES_A,
@@ -53,30 +56,36 @@ void setup() {
 }
 
 uint8_t i = 0;
-bool keyed = false;
 void loop() {
 
     state1 = pad1.buttons();
     state2 = pad2.buttons();
 
-    keyed = false;
     for(i=0;i<8;i++){
-        if((state1 < 255) && (state1 & btns[i]))
+        if(state1 < 255)
         {
-            Keyboard.press(pad1_keys[i]);
-            keyed = true;
+            state = (state1 & btns[i]);
+            if(state != (last_state1 & btns[i]))
+            {
+                if(state)
+                    Keyboard.press(pad1_keys[i]);
+                else
+                    Keyboard.release(pad1_keys[i]);
+            }
         }
-        if((state2 < 255) && (state2 & btns[i]))
+        if(state2 < 255)
         {
-            Keyboard.press(pad2_keys[i]);
-            keyed = true;
+            state = (state2 & btns[i]);
+            if(state != (last_state2 & btns[i]))
+            {
+                if(state)
+                    Keyboard.press(pad2_keys[i]);
+                else
+                    Keyboard.release(pad2_keys[i]);
+            }
         }
     }
 
-    if(keyed)
-    {
-      delay(100);
-      Keyboard.releaseAll();
-    }
-
+    last_state1 = state1;
+    last_state2 = state2;
 }
