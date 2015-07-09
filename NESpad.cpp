@@ -45,7 +45,7 @@ NESpad::NESpad(int strobe, int clock, int data)
   {
     pinMode(strobe, OUTPUT);
     pinMode(clock,  OUTPUT);
-    pinMode(data, INPUT);
+    pinMode(data, INPUT_PULLUP);
   }
 
 byte NESpad::buttons(void)
