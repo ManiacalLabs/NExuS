@@ -51,7 +51,7 @@ char pad2_keys[] = {
 
 
 void setup() {
-    // Serial.begin(115200);
+    Serial.begin(115200);
     Keyboard.begin();
 }
 
@@ -89,9 +89,11 @@ void loop() {
         }
     }
 
-    if(state1 == 255 || state2 == 255){
-        Keyboard.releaseAll();
-    }
+    // if(state1 == 255 || state2 == 255){
+    //     Keyboard.releaseAll();
+    // }
+
+    delay(10);
 
     last_state1 = state1;
     last_state2 = state2;
